@@ -10,6 +10,7 @@ Eindopdracht voor de module Smart App Development, een informatieve recipe app i
 
 3. Wat wordt je insteek voor de UI?
    Mijn insteek voor het design ga ik op sites die we in motion design zien, bijvoorbeeld Dribble, MaterialDesign, … .
+   Ik ga ook gebruik maken van wat dribble shots om mijn app te designen 'https://dribbble.com/Achilleee/collections/5549491-Project-SmartApp'
 
 4. Op welk platform ga je focussen?
    Mijn focus zal op de iOS platform liggen omdat ik zelf met een iphone werk en omdat er wat meer UI design zijn voor iOS devices
