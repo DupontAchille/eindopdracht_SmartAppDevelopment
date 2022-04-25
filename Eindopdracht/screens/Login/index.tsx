@@ -72,7 +72,7 @@ function renderDetail() {
         <CButton
           buttonText="Discover More"
           colors={[color.darkGreen, color.lime]}
-          onPress={() => navigate("Home")}
+          onPress={() => navigate("Main")}
           buttonContainerStyle={{ paddingVertical: 18, borderRadius: 20 }}
         />
       </View>

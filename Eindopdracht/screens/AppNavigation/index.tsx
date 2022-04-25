@@ -4,6 +4,8 @@ import Recipe from "../Recipe";
 import icons from "../../styling/icons";
 import { Home } from "lucide-react";
 import TabIcon from "../../components/TabIcon";
+import RecipeList from "../Recipe/list";
+import RecipeDetail from "../Recipe/detail";
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
@@ -24,7 +26,7 @@ const Tabs = () => {
       })}
     >
       <Tab.Screen
-        name="Home"
+        name="Main"
         component={Recipe}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -33,20 +35,20 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Search"
-        component={Recipe}
+        name="Countries"
+        component={RecipeList}
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={icons.search} />
+            <TabIcon focused={focused} icon={icons.World} />
           ),
         }}
       />
       <Tab.Screen
-        name="Saved"
-        component={Recipe}
+        name="Randomizer"
+        component={RecipeDetail}
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={icons.bookmarkFilled} />
+            <TabIcon focused={focused} icon={icons.random} />
           ),
         }}
       />
