@@ -1,5 +1,8 @@
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Globe } from "lucide-react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
+import { Item } from "react-native-paper/lib/typescript/components/List/List";
 import color from "../styling/color";
 import fonts from "../styling/fonts";
 import sizes from "../styling/sizes";
@@ -8,11 +11,15 @@ export default ({
   containerStyle,
   categoryItem,
   onPress,
+  navigation,
 }: {
   containerStyle?: any;
   categoryItem: any;
   onPress?: any;
+  navigation?: any;
 }) => {
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<ParamListBase>>();
   return (
     <TouchableOpacity
       style={{
@@ -24,7 +31,10 @@ export default ({
         backgroundColor: "#F8F8F8",
         ...containerStyle,
       }}
-      onPress={onPress}
+      onPress={() =>
+        navigate("CategoryDetail", { payload: categoryItem.strCategory })
+      }
+      // onPress={() => console.log(categoryItem.strCategory)}
     >
       <Image
         source={{

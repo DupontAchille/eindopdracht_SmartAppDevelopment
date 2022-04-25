@@ -1,6 +1,10 @@
+export interface OneMeal {
+  meals: Array<meal>;
+}
+
 export default interface meal {
-  idMeal: string;
-  strMeal: string;
+  idMeal?: string;
+  strMeal?: string;
   strDrinkAlternate?: null;
   strCategory?: string;
   strArea?: string;
