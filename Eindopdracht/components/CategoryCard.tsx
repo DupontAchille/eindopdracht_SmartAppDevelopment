@@ -34,7 +34,6 @@ export default ({
       onPress={() =>
         navigate("CategoryDetail", { payload: categoryItem.strCategory })
       }
-      // onPress={() => console.log(categoryItem.strCategory)}
     >
       <Image
         source={{

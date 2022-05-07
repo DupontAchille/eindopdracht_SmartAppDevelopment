@@ -1,36 +1,32 @@
-import {
-  Dimensions,
-  Image,
-  Text,
-  Touchable,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import color from "../styling/color";
-import fonts from "../styling/fonts";
-import sizes from "../styling/sizes";
-import { BlurView } from "expo-blur";
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
+import color from '../styling/color'
+import fonts from '../styling/fonts'
+import sizes from '../styling/sizes'
 
 export default ({
   containerStyle,
   categoryMealItem,
   onPress,
 }: {
-  containerStyle?: any;
-  categoryMealItem: any;
-  onPress?: any;
+  containerStyle?: any
+  categoryMealItem: any
+  onPress?: any
 }) => {
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   return (
     <TouchableOpacity
       style={{
-        flexDirection: "column",
-        alignItems: "center",
+        flexDirection: 'column',
+        alignItems: 'center',
         padding: 10,
         marginTop: 30,
         borderRadius: sizes.radius,
-        backgroundColor: "#F8F8F8",
+        backgroundColor: '#F8F8F8',
         ...containerStyle,
       }}
+      onPress={() => navigate('Detail', { payload: categoryMealItem.idMeal })}
     >
       <Image
         source={{
@@ -46,8 +42,8 @@ export default ({
       <View
         style={{
           paddingTop: 10,
-          width: "100%",
-          alignItems: "center",
+          width: '100%',
+          alignItems: 'center',
         }}
       >
         <Text
@@ -60,5 +56,5 @@ export default ({
         </Text>
       </View>
     </TouchableOpacity>
-  );
-};
+  )
+}

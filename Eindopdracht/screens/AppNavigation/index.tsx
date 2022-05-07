@@ -1,12 +1,13 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import color from "../../styling/color";
-import Recipe from "../Recipe";
-import icons from "../../styling/icons";
-import { Home } from "lucide-react";
-import TabIcon from "../../components/TabIcon";
-import RecipeList from "../Recipe/list";
-import RecipeDetail from "../Recipe/detail";
-const Tab = createBottomTabNavigator();
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import color from '../../styling/color'
+import Recipe from '../Recipe'
+import icons from '../../styling/icons'
+import { Home } from 'lucide-react'
+import TabIcon from '../../components/TabIcon'
+import RecipeList from '../Recipe/list'
+import RecipeDetail from '../Recipe/detail'
+import randomrecipe from '../Recipe/randomrecipe'
+const Tab = createBottomTabNavigator()
 
 const Tabs = () => {
   return (
@@ -14,19 +15,19 @@ const Tabs = () => {
       screenOptions={({ route }) => ({
         tabBarShowLabel: false,
         tabBarStyle: {
-          position: "absolute",
+          position: 'absolute',
           bottom: 0,
           left: 0,
           right: 0,
           elevation: 0,
           backgroundColor: color.white,
-          borderTopColor: "transparent",
+          borderTopColor: 'transparent',
           height: 100,
         },
       })}
     >
       <Tab.Screen
-        name="Main"
+        name="Home"
         component={Recipe}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -45,7 +46,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Randomizer"
-        component={RecipeDetail}
+        component={randomrecipe}
         options={{
           tabBarIcon: ({ focused }) => (
             <TabIcon focused={focused} icon={icons.random} />
@@ -53,7 +54,7 @@ const Tabs = () => {
         }}
       />
     </Tab.Navigator>
-  );
-};
+  )
+}
 
-export default Tabs;
+export default Tabs
