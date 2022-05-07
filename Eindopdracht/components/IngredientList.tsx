@@ -1,338 +1,239 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import fonts from "../styling/fonts";
-import icons from "../styling/icons";
-import sizes from "../styling/sizes";
+import React, { useRef } from 'react'
+import {
+  Animated,
+  Image,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import color from '../styling/color'
+import fonts from '../styling/fonts'
+import icons from '../styling/icons'
+import sizes from '../styling/sizes'
 
 export default ({
   containerStyle,
   ingredientItem,
   onPress,
 }: {
-  containerStyle?: any;
-  ingredientItem: any;
-  onPress?: any;
+  containerStyle?: any
+  ingredientItem: any
+  onPress?: any
 }) => {
+  const scrollY = useRef(new Animated.Value(0)).current
+  const arr = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  ]
   return (
-    <SafeAreaView style={{ marginTop: -40 }}>
-      <View style={{ marginLeft: 32, paddingBottom: 5 }}>
-        <Text style={{ ...fonts.h2 }}>Ingredient list</Text>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          flexWrap: "wrap",
-          alignItems: "flex-start",
-        }}
+    <View>
+      <ScrollView
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: true },
+        )}
       >
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient1 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
+        <View style={{ alignItems: 'center', overflow: 'hidden' }}>
+          <Animated.Image
+            source={{
+              uri: `${ingredientItem.strMealThumb}`,
+            }}
+            style={{
+              height: 350,
+              width: '100%',
+              transform: [
+                {
+                  translateY: scrollY.interpolate({
+                    inputRange: [-350, 0, 350],
+                    outputRange: [-350 / 2, 0, 350 * 0.75],
+                  }),
+                },
+                {
+                  scale: scrollY.interpolate({
+                    inputRange: [-350, 0, 350],
+                    outputRange: [2, 1, 0.75],
+                  }),
+                },
+              ],
+            }}
+          />
+          <Animated.View
+            style={{
+              position: 'absolute',
+              bottom: 10,
+              left: 30,
+              right: 30,
+              height: 80,
+              flex: 1,
+              transform: [
+                {
+                  translateY: scrollY.interpolate({
+                    inputRange: [0, 170, 250],
+                    outputRange: [0, 0, 100],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                borderRadius: sizes.radius,
+                backgroundColor: color.transparentBlack7,
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                <View style={{ flex: 1, marginHorizontal: 20 }}>
+                  <Text style={{ color: color.lightGray, ...fonts.body4 }}>
+                    Recipe category:
+                  </Text>
+                  <Text style={{ color: color.white, ...fonts.h3 }}>
+                    {ingredientItem.strCategory}
+                  </Text>
+                </View>
+                {ingredientItem.strSource ? (
+                  <TouchableOpacity
+                    style={{
+                      width: 30,
+                      height: 30,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginRight: 20,
+                      borderRadius: 5,
+                      borderWidth: 1,
+                      borderColor: color.lightGreen,
+                    }}
+                    onPress={() =>
+                      Linking.openURL(`${ingredientItem.strSource}`)
+                    }
+                  >
+                    <Image
+                      source={icons.World}
+                      style={{
+                        width: 15,
+                        height: 15,
+                        tintColor: color.lightGreen,
+                      }}
+                    />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
             </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient1}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure1}</Text>
-            </View>
+          </Animated.View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            height: 100,
+            width: sizes.width,
+            paddingHorizontal: 30,
+          }}
+        >
+          <View style={{ flex: 1.5, justifyContent: 'center' }}>
+            <Text style={{ ...fonts.h2 }}>{ingredientItem.strMeal}</Text>
+            {ingredientItem.strYoutube ? (
+              <TouchableOpacity
+                onPress={() => Linking.openURL(`${ingredientItem.strYoutube}`)}
+              >
+                <Text
+                  style={{
+                    marginTop: 5,
+                    color: color.gray,
+                    ...fonts.body4,
+                  }}
+                >
+                  Watch the youtube video here
+                </Text>
+              </TouchableOpacity>
+            ) : null}
           </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient2 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient2}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure2}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient3 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient3}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure3}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient4 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient4}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure4}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient5 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient5}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure5}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient6 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient6}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure6}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient7 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient7}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure7}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient8 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient8}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure8}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient9 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient9}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure9}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient10 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient10}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure10}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient11 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient11}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure11}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient12 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient12}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure12}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient13 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient13}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure13}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient14 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient14}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure14}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient15 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient15}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure15}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient16 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient16}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure16}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient17 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient17}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure17}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient18 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient18}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure18}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient19 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient19}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure19}</Text>
-            </View>
-          </View>
-        ) : null}
-        {/* 1 Ingredient string */}
-        {ingredientItem.strIngredient20 ? (
-          <View style={styles.Row}>
-            <View style={styles.Icon}>
-              <Image source={icons.circle} style={{ width: 8, height: 8 }} />
-            </View>
-            <View style={styles.IngredientAlign}>
-              <Text style={styles.Text}>{ingredientItem.strIngredient20}</Text>
-            </View>
-            <View style={styles.MeasureAlign}>
-              <Text style={styles.Text}>{ingredientItem.strMeasure20}</Text>
-            </View>
-          </View>
-        ) : null}
+        </View>
+      </ScrollView>
+      <SafeAreaView style={{ marginTop: -40 }}>
+        <SafeAreaView style={{ marginLeft: 32, paddingBottom: 5 }}>
+          <Text style={{ ...fonts.h2 }}>Ingredient list</Text>
+        </SafeAreaView>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignItems: 'flex-start',
+          }}
+        >
+          {arr.map((a) =>
+            ingredientItem[`strIngredient${a}`] ? (
+              <View
+                style={styles.Row}
+                key={ingredientItem[`strIngredient${a}`]}
+              >
+                <View style={styles.Icon}>
+                  <Image
+                    source={icons.circle}
+                    style={{ width: 8, height: 8 }}
+                  />
+                </View>
+                <View style={styles.IngredientAlign}>
+                  <Text style={styles.Text}>
+                    {ingredientItem[`strIngredient${a}`]}
+                  </Text>
+                </View>
+                <View style={styles.MeasureAlign}>
+                  <Text style={styles.Text}>
+                    {ingredientItem[`strMeasure${a}`]}
+                  </Text>
+                </View>
+              </View>
+            ) : null,
+          )}
+        </View>
+      </SafeAreaView>
+      <View style={{ marginBottom: 150 }}>
+        <View style={{ left: 32 }}>
+          <Text style={{ ...fonts.h2 }}>Instructions</Text>
+        </View>
+        <View style={{ left: 32, width: '80%' }}>
+          <Text style={{ ...fonts.body3, marginTop: 10 }}>
+            {ingredientItem.strInstructions}
+          </Text>
+        </View>
       </View>
-    </SafeAreaView>
-  );
-};
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   Row: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginVertical: 5,
-    width: "50%",
+    width: '50%',
     left: 20,
   },
   Icon: {
-    alignItems: "flex-end",
-    justifyContent: "center",
+    alignItems: 'flex-end',
+    justifyContent: 'center',
     height: 30,
     width: 30,
   },
   IngredientAlign: {
     paddingHorizontal: 5,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   MeasureAlign: {
-    alignItems: "flex-end",
-    justifyContent: "center",
+    alignItems: 'flex-end',
+    justifyContent: 'center',
   },
   Text: {
-    ...fonts.body3,
+    ...fonts.body5,
   },
-});
+})

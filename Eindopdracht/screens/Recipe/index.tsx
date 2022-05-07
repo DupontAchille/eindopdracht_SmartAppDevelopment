@@ -2,71 +2,70 @@ import {
   SafeAreaView,
   View,
   FlatList,
-  StyleSheet,
   Text,
-  StatusBar,
-  TextInput,
-  TouchableOpacityBase,
   TouchableOpacity,
   Image,
-} from "react-native";
-import MealCard from "../../components/CategoryCard";
-import RecentCard from "../../components/RecentCard";
-import category, { categories } from "../../interfaces/category";
-import meal from "../../interfaces/meal";
-import color from "../../styling/color";
-import fonts from "../../styling/fonts";
-import sizes from "../../styling/sizes";
-import icons from "../../styling/icons";
-import images from "../../styling/images";
-import axios, { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+} from 'react-native'
+import MealCard from '../../components/CategoryCard'
+import RecentCard from '../../components/RecentCard'
+import category, { categories } from '../../interfaces/category'
+import meal from '../../interfaces/meal'
+import color from '../../styling/color'
+import fonts from '../../styling/fonts'
+import sizes from '../../styling/sizes'
+import icons from '../../styling/icons'
+import axios, { AxiosResponse } from 'axios'
+import { useEffect, useRef, useState } from 'react'
+import LottieView from 'lottie-react-native'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { StatusBar } from 'expo-status-bar'
 
 export default function () {
   const testmeals: meal[] = [
     {
-      idMeal: "52940",
-      strMeal: "Brown Stew Chicken",
+      idMeal: '52940',
+      strMeal: 'Brown Stew Chicken',
       strDrinkAlternate: null,
-      strCategory: "Chicken",
-      strArea: "Jamaican",
+      strCategory: 'Chicken',
+      strArea: 'Jamaican',
       strMealThumb:
-        "https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg",
-      strTags: "Stew",
-      strYoutube: "https://www.youtube.com/watch?v=_gFB1fkNhXs",
+        'https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg',
+      strTags: 'Stew',
+      strYoutube: 'https://www.youtube.com/watch?v=_gFB1fkNhXs',
     },
     {
-      idMeal: "52876",
-      strMeal: "Minced Beef Pie",
+      idMeal: '52876',
+      strMeal: 'Minced Beef Pie',
       strDrinkAlternate: null,
-      strCategory: "Beef",
-      strArea: "British",
+      strCategory: 'Beef',
+      strArea: 'British',
       strMealThumb:
-        "https://www.themealdb.com/images/media/meals/xwutvy1511555540.jpg",
-      strTags: "Pie,Meat",
-      strYoutube: "https://www.youtube.com/watch?v=QY47h-uqq5g",
+        'https://www.themealdb.com/images/media/meals/xwutvy1511555540.jpg',
+      strTags: 'Pie,Meat',
+      strYoutube: 'https://www.youtube.com/watch?v=QY47h-uqq5g',
     },
     {
-      idMeal: "52967",
-      strMeal: "Home-made Mandazi",
+      idMeal: '52967',
+      strMeal: 'Home-made Mandazi',
       strDrinkAlternate: null,
-      strCategory: "Breakfast",
-      strArea: "Kenyan",
-      strTags: "Baking,Breakfast,Egg,Warm,Snack",
+      strCategory: 'Breakfast',
+      strArea: 'Kenyan',
+      strTags: 'Baking,Breakfast,Egg,Warm,Snack',
       strMealThumb:
-        "https://www.themealdb.com/images/media/meals/thazgm1555350962.jpg",
-      strYoutube: "",
+        'https://www.themealdb.com/images/media/meals/thazgm1555350962.jpg',
+      strYoutube: '',
     },
-  ];
-  const [category, setCategoryData] = useState<categories>();
+  ]
+  const [category, setCategoryData] = useState<categories>()
 
   useEffect(() => {
     axios
-      .get<categories>("https://www.themealdb.com/api/json/v1/1/categories.php")
+      .get<categories>('https://www.themealdb.com/api/json/v1/1/categories.php')
       .then((response: AxiosResponse) => {
-        setCategoryData(response.data);
-      });
-  }, []);
+        setCategoryData(response.data)
+      })
+  }, [])
 
   const renderCategory = ({ item }: { item: category }) => {
     const c: category = {
@@ -74,14 +73,14 @@ export default function () {
       strCategory: item.strCategory,
       strCategoryThumb: item.strCategoryThumb,
       strCategoryDescription: item.strCategoryDescription,
-    };
+    }
     return (
       <MealCard
         categoryItem={c}
         containerStyle={{ marginHorizontal: sizes.padding }}
       />
-    );
-  };
+    )
+  }
 
   const renderRecentMeal = ({ item }: { item: meal }) => {
     const m: meal = {
@@ -138,22 +137,22 @@ export default function () {
       strImageSource: item.strImageSource,
       strCreativeCommonsConfirmed: item.strCreativeCommonsConfirmed,
       dateModified: item.dateModified,
-    };
+    }
     return (
       <RecentCard
         mealItem={m}
         containerStyle={{ marginHorizontal: sizes.padding }}
       />
-    );
-  };
+    )
+  }
 
   function renderHeader() {
     return (
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           marginHorizontal: sizes.padding,
-          alignItems: "center",
+          alignItems: 'center',
           height: 80,
         }}
       >
@@ -172,12 +171,13 @@ export default function () {
           />
         </TouchableOpacity>
       </View>
-    );
+    )
   }
 
   function renderRecent() {
     return (
       <View style={{ marginTop: sizes.padding }}>
+        <StatusBar />
         <Text style={{ marginHorizontal: sizes.padding, ...fonts.h2 }}>
           Recently added
         </Text>
@@ -189,14 +189,22 @@ export default function () {
           renderItem={renderRecentMeal}
         ></FlatList>
       </View>
-    );
+    )
   }
 
   function renderRandomRecipeCard() {
+    const lottieRef = useRef<LottieView>(null)
+    const { navigate } =
+      useNavigation<NativeStackNavigationProp<ParamListBase>>()
+    useEffect(() => {
+      if (lottieRef && lottieRef.current) {
+        lottieRef.current.play()
+      }
+    })
     return (
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           marginTop: sizes.padding,
           marginHorizontal: sizes.padding,
           borderRadius: 10,
@@ -204,25 +212,26 @@ export default function () {
         }}
       >
         <View
-          style={{ width: 100, alignItems: "center", justifyContent: "center" }}
+          style={{ width: 100, alignItems: 'center', justifyContent: 'center' }}
         >
-          <Image
-            source={images.recipe}
-            style={{ margin: 5, width: 75, height: 75 }}
+          <LottieView
+            source={require('../../assets/lottiefiles/4762-food-carousel.json')}
+            ref={lottieRef}
+            style={{ width: 75, height: 75 }}
           />
         </View>
         <View style={{ flex: 1, paddingVertical: sizes.radius }}>
-          <Text style={{ width: "70%", ...fonts.body4 }}>
+          <Text style={{ width: '70%', ...fonts.body4 }}>
             Want to try out something new & random?
           </Text>
           <TouchableOpacity
             style={{ marginTop: 10 }}
-            onPress={() => console.log("Ok")}
+            onPress={() => navigate('Randomizer')}
           >
             <Text
               style={{
                 color: color.darkGreen,
-                textDecorationLine: "underline",
+                textDecorationLine: 'underline',
                 ...fonts.h4,
               }}
             >
@@ -231,22 +240,22 @@ export default function () {
           </TouchableOpacity>
         </View>
       </View>
-    );
+    )
   }
 
   function renderCategoryHeader() {
     return (
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
+          flexDirection: 'row',
+          alignItems: 'center',
           marginTop: 20,
           marginHorizontal: sizes.padding,
         }}
       >
         <Text style={{ flex: 1, ...fonts.h2 }}>Categories</Text>
       </View>
-    );
+    )
   }
 
   return (
@@ -268,5 +277,5 @@ export default function () {
         ListFooterComponent={<View style={{ marginBottom: 100 }}></View>}
       />
     </SafeAreaView>
-  );
+  )
 }

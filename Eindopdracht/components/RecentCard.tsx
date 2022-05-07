@@ -1,19 +1,19 @@
-import { Image, Text, Touchable, TouchableOpacity, View } from "react-native";
-import Recipe from "../screens/Recipe";
-import color from "../styling/color";
-import fonts from "../styling/fonts";
-import sizes from "../styling/sizes";
-import { BlurView } from "expo-blur";
-import icons from "../styling/icons";
+import { Image, Text, Touchable, TouchableOpacity, View } from 'react-native'
+import Recipe from '../screens/Recipe'
+import color from '../styling/color'
+import fonts from '../styling/fonts'
+import sizes from '../styling/sizes'
+import { BlurView } from 'expo-blur'
+import icons from '../styling/icons'
 
 export default ({
   containerStyle,
   mealItem,
   onPress,
 }: {
-  containerStyle?: any;
-  mealItem: any;
-  onPress?: any;
+  containerStyle?: any
+  mealItem: any
+  onPress?: any
 }) => {
   return (
     <TouchableOpacity
@@ -22,7 +22,6 @@ export default ({
         width: 250,
         marginTop: sizes.radius,
         marginRight: 20,
-        borderRadius: sizes.radius,
         ...containerStyle,
       }}
       onPress={onPress}
@@ -41,13 +40,12 @@ export default ({
 
       <View
         style={{
-          position: "absolute",
+          position: 'absolute',
           top: 20,
           left: 15,
           paddingHorizontal: sizes.radius,
           paddingVertical: 5,
           backgroundColor: color.transparentGray,
-          borderRadius: sizes.radius,
         }}
       >
         <Text style={{ color: color.white, ...fonts.h4 }}>
@@ -58,7 +56,7 @@ export default ({
         intensity={70}
         tint="dark"
         style={{
-          position: "absolute",
+          position: 'absolute',
           bottom: 10,
           left: 10,
           right: 10,
@@ -69,8 +67,8 @@ export default ({
           <View
             style={{
               flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between",
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}
           >
             <Text
@@ -88,8 +86,8 @@ export default ({
           <View
             style={{
               flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between",
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}
           >
             <Text
@@ -108,8 +106,8 @@ export default ({
           <View
             style={{
               flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between",
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}
           >
             <Text
@@ -127,5 +125,5 @@ export default ({
         </View>
       </BlurView>
     </TouchableOpacity>
-  );
-};
+  )
+}

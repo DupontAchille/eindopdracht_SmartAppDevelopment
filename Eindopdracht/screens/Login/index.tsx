@@ -9,7 +9,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import CButton from "../../components/CButton";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import {
-  createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 
