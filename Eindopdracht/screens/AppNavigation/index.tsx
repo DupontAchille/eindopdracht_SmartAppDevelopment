@@ -4,7 +4,7 @@ import Recipe from '../Recipe'
 import icons from '../../styling/icons'
 import { Home } from 'lucide-react'
 import TabIcon from '../../components/TabIcon'
-import RecipeList from '../Recipe/list'
+import RecipeList from '../Recipe/arealist'
 import RecipeDetail from '../Recipe/detail'
 import randomrecipe from '../Recipe/randomrecipe'
 const Tab = createBottomTabNavigator()
@@ -20,7 +20,6 @@ const Tabs = () => {
           left: 0,
           right: 0,
           elevation: 0,
-          backgroundColor: color.white,
           borderTopColor: 'transparent',
           height: 100,
         },

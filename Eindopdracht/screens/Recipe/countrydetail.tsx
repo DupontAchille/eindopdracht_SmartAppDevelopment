@@ -44,12 +44,10 @@ export default function CountryDetail({ route, navigation }: any) {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: color.white,
         alignItems: 'center',
         marginTop: -20,
       }}
     >
-      <StatusBar style="dark" />
       <FlatList
         data={onecategory?.meals}
         keyExtractor={(item) => `${item.idMeal}`}

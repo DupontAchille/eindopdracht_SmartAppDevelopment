@@ -14,7 +14,6 @@ export default function RecipeList() {
       .get<Area>('https://www.themealdb.com/api/json/v1/1/list.php?a=list')
       .then((response: AxiosResponse) => {
         setData(response.data)
-        console.log(response.data)
       })
   }, [])
 
@@ -22,7 +21,7 @@ export default function RecipeList() {
     const a: AreaString = {
       strArea: item.strArea,
     }
-    return <AreaTile areaItem={a} containerStyle={{ marginHorizontal: 15 }} />
+    return <AreaTile areaItem={a} />
   }
 
   return (

@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  StyleSheet,
 } from 'react-native'
 import MealCard from '../../components/CategoryCard'
 import RecentCard from '../../components/RecentCard'
@@ -20,8 +21,10 @@ import LottieView from 'lottie-react-native'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { StatusBar } from 'expo-status-bar'
+import { useColorScheme } from 'react-native-appearance'
 
 export default function () {
+  const scheme = useColorScheme()
   const testmeals: meal[] = [
     {
       idMeal: '52940',
@@ -74,12 +77,7 @@ export default function () {
       strCategoryThumb: item.strCategoryThumb,
       strCategoryDescription: item.strCategoryDescription,
     }
-    return (
-      <MealCard
-        categoryItem={c}
-        containerStyle={{ marginHorizontal: sizes.padding }}
-      />
-    )
+    return <MealCard categoryItem={c} />
   }
 
   const renderRecentMeal = ({ item }: { item: meal }) => {
@@ -202,15 +200,7 @@ export default function () {
       }
     })
     return (
-      <View
-        style={{
-          flexDirection: 'row',
-          marginTop: sizes.padding,
-          marginHorizontal: sizes.padding,
-          borderRadius: 10,
-          backgroundColor: color.lightGreen,
-        }}
-      >
+      <View style={[scheme === 'dark' ? style.DarkHeader : style.LightHeader]}>
         <View
           style={{ width: 100, alignItems: 'center', justifyContent: 'center' }}
         >
@@ -221,7 +211,13 @@ export default function () {
           />
         </View>
         <View style={{ flex: 1, paddingVertical: sizes.radius }}>
-          <Text style={{ width: '70%', ...fonts.body4 }}>
+          <Text
+            style={[
+              scheme === 'dark'
+                ? style.DarkRandomTitle
+                : style.LightRandomTitle,
+            ]}
+          >
             Want to try out something new & random?
           </Text>
           <TouchableOpacity
@@ -253,13 +249,15 @@ export default function () {
           marginHorizontal: sizes.padding,
         }}
       >
-        <Text style={{ flex: 1, ...fonts.h2 }}>Categories</Text>
+        <Text style={[scheme === 'dark' ? style.DarkTitle : style.LightTitle]}>
+          Categories
+        </Text>
       </View>
     )
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <FlatList
         data={category?.categories}
         keyExtractor={(item) => `${item.idCategory}`}
@@ -279,3 +277,24 @@ export default function () {
     </SafeAreaView>
   )
 }
+
+const style = StyleSheet.create({
+  DarkTitle: { flex: 1, ...fonts.h2, color: color.white },
+  LightTitle: { flex: 1, ...fonts.h2, color: color.black },
+  DarkHeader: {
+    flexDirection: 'row',
+    marginTop: sizes.padding,
+    marginHorizontal: sizes.padding,
+    borderRadius: 10,
+    backgroundColor: color.transparentGray1,
+  },
+  LightHeader: {
+    flexDirection: 'row',
+    marginTop: sizes.padding,
+    marginHorizontal: sizes.padding,
+    borderRadius: 10,
+    backgroundColor: color.lightGreen,
+  },
+  DarkRandomTitle: { width: '80%', ...fonts.body4, color: color.white },
+  LightRandomTitle: { width: '80%', ...fonts.body4, color: color.black },
+})

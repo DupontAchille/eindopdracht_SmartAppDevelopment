@@ -18,10 +18,6 @@ export default function CategoryDetail({ route, navigation }: any) {
       )
       .then((response: AxiosResponse) => {
         setOneCategoryData(response.data)
-        // console.log(response.data);
-        console.log(
-          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${payload}`,
-        )
       })
       .catch((error) => {
         alert(error.message)
@@ -48,12 +44,10 @@ export default function CategoryDetail({ route, navigation }: any) {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: color.white,
         alignItems: 'center',
         marginTop: -20,
       }}
     >
-      <StatusBar style="dark" />
       <FlatList
         data={onecategory?.meals}
         keyExtractor={(item) => `${item.idMeal}`}
