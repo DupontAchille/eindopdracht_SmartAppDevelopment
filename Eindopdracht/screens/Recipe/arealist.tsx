@@ -25,8 +25,9 @@ export default function RecipeList() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: 'center', marginBottom: 100 }}>
+    <SafeAreaView style={{ flex: 1, alignItems: 'center', marginBottom: 65 }}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={area?.meals}
         keyExtractor={(item) => `${item.strArea}`}
         renderItem={renderArea}

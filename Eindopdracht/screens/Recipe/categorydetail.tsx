@@ -7,9 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import CategoryMealList from '../../components/CategoryMealList'
 import { StatusBar } from 'expo-status-bar'
 
-export default function CategoryDetail({ route, navigation }: any) {
+export default function CategoryDetail({ route }: any) {
   const { payload } = route.params
-
   const [onecategory, setOneCategoryData] = useState<OneCategorie>()
   useEffect(() => {
     axios
