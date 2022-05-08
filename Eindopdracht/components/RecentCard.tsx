@@ -1,10 +1,10 @@
-import { Image, Text, Touchable, TouchableOpacity, View } from 'react-native'
-import Recipe from '../screens/Recipe'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import color from '../styling/color'
 import fonts from '../styling/fonts'
 import sizes from '../styling/sizes'
 import { BlurView } from 'expo-blur'
-import icons from '../styling/icons'
+import { ParamListBase, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 export default ({
   containerStyle,
@@ -15,6 +15,7 @@ export default ({
   mealItem: any
   onPress?: any
 }) => {
+  const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
   return (
     <TouchableOpacity
       style={{
@@ -24,7 +25,11 @@ export default ({
         marginRight: 20,
         ...containerStyle,
       }}
-      onPress={onPress}
+      onPress={() =>
+        navigate('Detail', {
+          payload: mealItem.idMeal,
+        })
+      }
     >
       <Image
         source={{

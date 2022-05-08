@@ -1,4 +1,5 @@
-import React, { useRef } from 'react'
+import { Underline } from 'lucide-react'
+import React, { useEffect, useRef } from 'react'
 import {
   Animated,
   Image,
@@ -8,12 +9,14 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  useColorScheme,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import color from '../styling/color'
 import fonts from '../styling/fonts'
 import icons from '../styling/icons'
 import sizes from '../styling/sizes'
+import entering from 'react-native-reanimated'
 
 export default ({
   containerStyle,
@@ -24,61 +27,30 @@ export default ({
   ingredientItem: any
   onPress?: any
 }) => {
-  const scrollY = useRef(new Animated.Value(0)).current
   const arr = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
   ]
+  const theme = useColorScheme()
+  const fadeAnim = useRef(new Animated.Value(0)).current // Initial value for opacity: 0
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start()
+  }, [fadeAnim])
   return (
     <View>
-      <ScrollView
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: true },
-        )}
-      >
+      <ScrollView key={ingredientItem.idMeal}>
         <View style={{ alignItems: 'center', overflow: 'hidden' }}>
           <Animated.Image
             source={{
               uri: `${ingredientItem.strMealThumb}`,
             }}
-            style={{
-              height: 350,
-              width: '100%',
-              transform: [
-                {
-                  translateY: scrollY.interpolate({
-                    inputRange: [-350, 0, 350],
-                    outputRange: [-350 / 2, 0, 350 * 0.75],
-                  }),
-                },
-                {
-                  scale: scrollY.interpolate({
-                    inputRange: [-350, 0, 350],
-                    outputRange: [2, 1, 0.75],
-                  }),
-                },
-              ],
-            }}
+            style={[styles.ThumbImg, { opacity: fadeAnim }]}
           />
-          <Animated.View
-            style={{
-              position: 'absolute',
-              bottom: 10,
-              left: 30,
-              right: 30,
-              height: 80,
-              flex: 1,
-              transform: [
-                {
-                  translateY: scrollY.interpolate({
-                    inputRange: [0, 170, 250],
-                    outputRange: [0, 0, 100],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            }}
-          >
+          <Animated.View style={[styles.ImgCaption, { opacity: fadeAnim }]}>
             <View
               style={{
                 flex: 1,
@@ -140,7 +112,11 @@ export default ({
           }}
         >
           <View style={{ flex: 1.5, justifyContent: 'center' }}>
-            <Text style={{ ...fonts.h2 }}>{ingredientItem.strMeal}</Text>
+            <Text
+              style={[theme === 'dark' ? styles.DarkTitle : styles.LightTitle]}
+            >
+              {ingredientItem.strMeal}
+            </Text>
             {ingredientItem.strYoutube ? (
               <TouchableOpacity
                 onPress={() => Linking.openURL(`${ingredientItem.strYoutube}`)}
@@ -149,6 +125,7 @@ export default ({
                   style={{
                     marginTop: 5,
                     color: color.gray,
+
                     ...fonts.body4,
                   }}
                 >
@@ -161,22 +138,21 @@ export default ({
       </ScrollView>
       <SafeAreaView style={{ marginTop: -40 }}>
         <SafeAreaView style={{ marginLeft: 32, paddingBottom: 5 }}>
-          <Text style={{ ...fonts.h2 }}>Ingredient list</Text>
+          <Text
+            style={[theme === 'dark' ? styles.DarkTitle : styles.LightTitle]}
+          >
+            Ingredient list
+          </Text>
         </SafeAreaView>
-        <View
+        <SafeAreaView
           style={{
             flex: 1,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            alignItems: 'flex-start',
+            marginBottom: 20,
           }}
         >
           {arr.map((a) =>
             ingredientItem[`strIngredient${a}`] ? (
-              <View
-                style={styles.Row}
-                key={ingredientItem[`strIngredient${a}`]}
-              >
+              <View key={a} style={styles.Row}>
                 <View style={styles.Icon}>
                   <Image
                     source={icons.circle}
@@ -184,26 +160,44 @@ export default ({
                   />
                 </View>
                 <View style={styles.IngredientAlign}>
-                  <Text style={styles.Text}>
+                  <Text
+                    style={[
+                      theme === 'dark' ? styles.DarkText : styles.LightText,
+                    ]}
+                  >
                     {ingredientItem[`strIngredient${a}`]}
                   </Text>
                 </View>
                 <View style={styles.MeasureAlign}>
-                  <Text style={styles.Text}>
+                  <Text
+                    style={[
+                      theme === 'dark' ? styles.DarkText : styles.LightText,
+                    ]}
+                  >
                     {ingredientItem[`strMeasure${a}`]}
                   </Text>
                 </View>
               </View>
             ) : null,
           )}
-        </View>
+        </SafeAreaView>
       </SafeAreaView>
       <View style={{ marginBottom: 150 }}>
         <View style={{ left: 32 }}>
-          <Text style={{ ...fonts.h2 }}>Instructions</Text>
+          <Text
+            style={[theme === 'dark' ? styles.DarkTitle : styles.LightTitle]}
+          >
+            Instructions
+          </Text>
         </View>
         <View style={{ left: 32, width: '80%' }}>
-          <Text style={{ ...fonts.body3, marginTop: 10 }}>
+          <Text
+            style={[
+              theme === 'dark'
+                ? styles.DarkIngredients
+                : styles.LightIngredients,
+            ]}
+          >
             {ingredientItem.strInstructions}
           </Text>
         </View>
@@ -215,9 +209,8 @@ export default ({
 const styles = StyleSheet.create({
   Row: {
     flexDirection: 'row',
-    marginVertical: 5,
-    width: '50%',
-    left: 20,
+    width: '80%',
+    left: 10,
   },
   Icon: {
     alignItems: 'flex-end',
@@ -230,10 +223,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   MeasureAlign: {
-    alignItems: 'flex-end',
+    textAlign: 'right',
+    alignItems: 'flex-start',
     justifyContent: 'center',
   },
-  Text: {
-    ...fonts.body5,
+  DarkText: {
+    ...fonts.body3,
+    color: color.white,
+  },
+  LightText: { ...fonts.body5, color: color.black },
+  DarkTitle: { ...fonts.h2, color: color.white },
+  LightTitle: { ...fonts.h2, color: color.black },
+  DarkIngredients: { ...fonts.body3, marginTop: 10, color: color.white },
+  LightIngredients: { ...fonts.body3, marginTop: 10, color: color.black },
+  ThumbImg: {
+    height: 350,
+    width: '100%',
+  },
+  ImgCaption: {
+    position: 'absolute',
+    bottom: 10,
+    left: 30,
+    right: 30,
+    height: 80,
+    flex: 1,
   },
 })

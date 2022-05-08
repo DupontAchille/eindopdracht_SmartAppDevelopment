@@ -9,7 +9,8 @@ import RecipeDetail from './screens/Recipe/detail'
 import CountryDetail from './screens/Recipe/countrydetail'
 import Login from './screens/Login'
 import randomrecipe from './screens/Recipe/randomrecipe'
-import { StatusBar } from 'expo-status-bar'
+import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
+import { DefaultTheme, DarkTheme } from '@react-navigation/native'
 
 const Stack = createNativeStackNavigator()
 
@@ -19,13 +20,12 @@ export default function App() {
     'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
     'Roboto-Bold': require('./assets/fonts/Roboto-Bold.ttf'),
   })
-
+  const scheme = useColorScheme()
   if (!fontsLoaded) {
     return <AppLoading />
   } else {
     return (
-      <NavigationContainer>
-        <StatusBar style="dark" />
+      <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack.Navigator
           screenOptions={{
             headerShown: false,

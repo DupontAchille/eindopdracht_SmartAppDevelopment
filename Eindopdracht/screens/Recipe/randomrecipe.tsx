@@ -18,171 +18,78 @@ import fonts from '../../styling/fonts'
 import icons from '../../styling/icons'
 import sizes from '../../styling/sizes'
 import Ripple from 'react-native-material-ripple'
+import IngredientList from '../../components/DetailList'
 
 export default ({ route, navigation }: any) => {
   const [random, setRandomData] = useState<OneMeal>()
   const [Reload, setReload] = useState(false)
-  const arr = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  ]
 
   useEffect(() => {
     axios
       .get<OneMeal>('https://www.themealdb.com/api/json/v1/1/random.php')
       .then((response: AxiosResponse) => {
         setRandomData(response.data)
-        console.log(response.data)
       })
   }, [Reload])
-  //moet any zijn omdat hij anders niet met de arr.map function wilt werken.
-  const renderRandom = ({ item }: { item: any }) => {
-    return (
-      <View>
-        <ScrollView>
-          <View style={{ alignItems: 'center', overflow: 'hidden' }}>
-            <Animated.Image
-              source={{
-                uri: `${item.strMealThumb}`,
-              }}
-              style={{
-                height: 350,
-                width: '100%',
-              }}
-            />
-            <Animated.View
-              style={{
-                position: 'absolute',
-                bottom: 10,
-                left: 30,
-                right: 30,
-                height: 80,
-                flex: 1,
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  borderRadius: sizes.radius,
-                  backgroundColor: color.transparentBlack7,
-                }}
-              >
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                >
-                  <View style={{ flex: 1, marginHorizontal: 20 }}>
-                    <Text style={{ color: color.lightGray, ...fonts.body4 }}>
-                      Recipe category:
-                    </Text>
-                    <Text style={{ color: color.white, ...fonts.h3 }}>
-                      {item.strCategory}
-                    </Text>
-                  </View>
-                  {item.strSource ? (
-                    <TouchableOpacity
-                      style={{
-                        width: 30,
-                        height: 30,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginRight: 20,
-                        borderRadius: 5,
-                        borderWidth: 1,
-                        borderColor: color.lightGreen,
-                      }}
-                      onPress={() => Linking.openURL(`${item.strSource}`)}
-                    >
-                      <Image
-                        source={icons.World}
-                        style={{
-                          width: 15,
-                          height: 15,
-                          tintColor: color.lightGreen,
-                        }}
-                      />
-                    </TouchableOpacity>
-                  ) : null}
-                </View>
-              </View>
-            </Animated.View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              height: 100,
-              width: sizes.width,
-              paddingHorizontal: 30,
-            }}
-          >
-            <View style={{ flex: 1.5, justifyContent: 'center' }}>
-              <Text style={{ ...fonts.h2 }}>{item.strMeal}</Text>
-              {item.strYoutube ? (
-                <TouchableOpacity
-                  onPress={() => Linking.openURL(`${item.strYoutube}`)}
-                >
-                  <Text
-                    style={{
-                      marginTop: 8,
-                      color: color.gray,
-                      ...fonts.body4,
-                    }}
-                  >
-                    Watch the youtube video here
-                  </Text>
-                </TouchableOpacity>
-              ) : null}
-            </View>
-          </View>
-        </ScrollView>
-        <SafeAreaView style={{ marginTop: -20 }}>
-          <SafeAreaView style={{ marginLeft: 32, paddingBottom: 5 }}>
-            <Text style={{ ...fonts.h2 }}>Ingredient list</Text>
-          </SafeAreaView>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              alignItems: 'flex-start',
-            }}
-          >
-            {arr.map((a) =>
-              item[`strIngredient${a}`] ? (
-                <View style={styles.Row}>
-                  <View style={styles.Icon}>
-                    <Image
-                      source={icons.circle}
-                      style={{ width: 8, height: 8 }}
-                    />
-                  </View>
-                  <View style={styles.IngredientAlign}>
-                    <Text style={styles.Text}>{item[`strIngredient${a}`]}</Text>
-                  </View>
-                  <View style={styles.MeasureAlign}>
-                    <Text style={styles.Text}>{item[`strMeasure${a}`]}</Text>
-                  </View>
-                </View>
-              ) : null,
-            )}
-          </View>
-        </SafeAreaView>
-        <View style={{ marginBottom: 150 }}>
-          <View style={{ left: 32 }}>
-            <Text style={{ ...fonts.h2 }}>Instructions</Text>
-          </View>
-          <View style={{ left: 32, width: '80%' }}>
-            <Text style={{ ...fonts.body3, marginTop: 10 }}>
-              {item.strInstructions}
-            </Text>
-          </View>
-        </View>
-      </View>
-    )
-  }
 
+  const renderIngredients = ({ item }: { item: meal }) => {
+    const i: meal = {
+      idMeal: item.idMeal,
+      strMeal: item.strMeal,
+      strDrinkAlternate: item.strDrinkAlternate,
+      strCategory: item.strCategory,
+      strArea: item.strArea,
+      strInstructions: item.strInstructions,
+      strMealThumb: item.strMealThumb,
+      strTags: item.strTags,
+      strYoutube: item.strYoutube,
+      strIngredient1: item.strIngredient1,
+      strIngredient2: item.strIngredient2,
+      strIngredient3: item.strIngredient3,
+      strIngredient4: item.strIngredient4,
+      strIngredient5: item.strIngredient5,
+      strIngredient6: item.strIngredient6,
+      strIngredient7: item.strIngredient7,
+      strIngredient8: item.strIngredient8,
+      strIngredient9: item.strIngredient9,
+      strIngredient10: item.strIngredient10,
+      strIngredient11: item.strIngredient11,
+      strIngredient12: item.strIngredient12,
+      strIngredient13: item.strIngredient13,
+      strIngredient14: item.strIngredient14,
+      strIngredient15: item.strIngredient15,
+      strIngredient16: item.strIngredient16,
+      strIngredient17: item.strIngredient17,
+      strIngredient18: item.strIngredient18,
+      strIngredient19: item.strIngredient19,
+      strIngredient20: item.strIngredient20,
+      strMeasure1: item.strMeasure1,
+      strMeasure2: item.strMeasure2,
+      strMeasure3: item.strMeasure3,
+      strMeasure4: item.strMeasure4,
+      strMeasure5: item.strMeasure5,
+      strMeasure6: item.strMeasure6,
+      strMeasure7: item.strMeasure7,
+      strMeasure8: item.strMeasure8,
+      strMeasure9: item.strMeasure9,
+      strMeasure10: item.strMeasure10,
+      strMeasure11: item.strMeasure11,
+      strMeasure12: item.strMeasure12,
+      strMeasure13: item.strMeasure13,
+      strMeasure14: item.strMeasure14,
+      strMeasure15: item.strMeasure15,
+      strMeasure16: item.strMeasure16,
+      strMeasure17: item.strMeasure17,
+      strMeasure18: item.strMeasure18,
+      strMeasure19: item.strMeasure19,
+      strMeasure20: item.strMeasure20,
+      strSource: item.strSource,
+      strImageSource: item.strImageSource,
+      strCreativeCommonsConfirmed: item.strCreativeCommonsConfirmed,
+      dateModified: item.dateModified,
+    }
+    return <IngredientList ingredientItem={i} />
+  }
   function renderHeaderBar() {
     return (
       <View style={styles.HeaderView}>
@@ -208,7 +115,7 @@ export default ({ route, navigation }: any) => {
         keyExtractor={(item) => `${item.idMeal}`}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
-        renderItem={renderRandom}
+        renderItem={renderIngredients}
       />
       {renderHeaderBar()}
     </View>

@@ -1,4 +1,11 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  useColorScheme,
+} from 'react-native'
 import color from '../styling/color'
 import fonts from '../styling/fonts'
 import sizes from '../styling/sizes'
@@ -9,12 +16,10 @@ import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 export default ({
-  containerStyle,
   areaItem,
   onPress,
   navigation,
 }: {
-  containerStyle?: any
   areaItem: any
   onPress?: any
   navigation?: any
@@ -78,22 +83,10 @@ export default ({
     }
   }
   const { navigate } = useNavigation<NativeStackNavigationProp<ParamListBase>>()
+  const theme = useColorScheme()
   return (
     <TouchableOpacity
-      style={{
-        shadowColor: 'rgba(0,0,0, .4)', // IOS
-        shadowOffset: { height: 1, width: 1 }, // IOS
-        shadowOpacity: 1, // IOS
-        shadowRadius: 1, //IOS
-        flexDirection: 'column',
-        alignItems: 'center',
-        marginBottom: 15,
-        borderRadius: sizes.radius,
-        backgroundColor: '#F8F8F8',
-        ...containerStyle,
-        width: 150,
-        height: 150,
-      }}
+      style={[theme === 'dark' ? style.DarkView : style.LightView]}
       onPress={() =>
         navigate('CountryDetail', {
           payload: areaItem.strArea,
@@ -111,19 +104,13 @@ export default ({
         }}
       />
       <View style={{ alignItems: 'center' }}>
-        <Text
-          style={{
-            flex: 1,
-            ...fonts.h2,
-          }}
-        >
+        <Text style={[theme === 'dark' ? style.DarkTitle : style.LightTitle]}>
           {areaItem.strArea}
         </Text>
         <Text
-          style={{
-            flex: 3.5,
-            ...fonts.body5,
-          }}
+          style={[
+            theme === 'dark' ? style.DarkDescription : style.LightDescription,
+          ]}
         >
           Discover country
         </Text>
@@ -132,4 +119,53 @@ export default ({
   )
 }
 
-const styles = StyleSheet.create({})
+const style = StyleSheet.create({
+  DarkView: {
+    shadowColor: 'rgba(128,128,128, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: 15,
+    borderRadius: sizes.radius,
+    backgroundColor: color.transparentGray1,
+    width: 150,
+    height: 150,
+    marginHorizontal: 15,
+  },
+  LightView: {
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: 15,
+    borderRadius: sizes.radius,
+    backgroundColor: '#F8F8F8',
+    width: 150,
+    height: 150,
+    marginHorizontal: 15,
+  },
+  DarkTitle: {
+    flex: 1,
+    ...fonts.h2,
+    color: color.white,
+  },
+  LightTitle: {
+    flex: 1,
+    ...fonts.h2,
+    color: color.black,
+  },
+  DarkDescription: {
+    flex: 3.5,
+    ...fonts.body5,
+    color: color.white,
+  },
+  LightDescription: {
+    flex: 3.5,
+    ...fonts.body5,
+    color: color.black,
+  },
+})

@@ -13,7 +13,7 @@ import meal, { OneMeal } from '../../interfaces/meal'
 import fonts from '../../styling/fonts'
 import color from '../../styling/color'
 import icons from '../../styling/icons'
-import IngredientList from '../../components/IngredientList'
+import IngredientList from '../../components/DetailList'
 import sizes from '../../styling/sizes'
 
 export default function RecipeDetail({ route, navigation }: any) {
