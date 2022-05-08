@@ -107,11 +107,11 @@ export default ({
           style={{
             flexDirection: 'row',
             height: 100,
-            width: sizes.width,
-            paddingHorizontal: 30,
           }}
         >
-          <View style={{ flex: 1.5, justifyContent: 'center' }}>
+          <View
+            style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 30 }}
+          >
             <Text
               style={[theme === 'dark' ? styles.DarkTitle : styles.LightTitle]}
             >
@@ -125,7 +125,6 @@ export default ({
                   style={{
                     marginTop: 5,
                     color: color.gray,
-
                     ...fonts.body4,
                   }}
                 >
@@ -136,70 +135,68 @@ export default ({
           </View>
         </View>
       </ScrollView>
-      <SafeAreaView style={{ marginTop: -40 }}>
-        <SafeAreaView style={{ marginLeft: 32, paddingBottom: 5 }}>
+      <View style={{ paddingHorizontal: 30 }}>
+        <View>
           <Text
             style={[theme === 'dark' ? styles.DarkTitle : styles.LightTitle]}
           >
             Ingredient list
           </Text>
-        </SafeAreaView>
-        <SafeAreaView
-          style={{
-            flex: 1,
-            marginBottom: 20,
-          }}
-        >
-          {arr.map((a) =>
-            ingredientItem[`strIngredient${a}`] ? (
-              <View key={a} style={styles.Row}>
-                <View style={styles.Icon}>
-                  <Image
-                    source={icons.circle}
-                    style={{ width: 8, height: 8 }}
-                  />
+          <View
+            style={{
+              flex: 1,
+              marginBottom: 10,
+            }}
+          >
+            {arr.map((a) =>
+              ingredientItem[`strIngredient${a}`] ? (
+                <View key={a} style={styles.Row}>
+                  <View style={styles.Icon}>
+                    <Image
+                      source={icons.circle}
+                      style={{ width: 8, height: 8 }}
+                    />
+                  </View>
+                  <View style={styles.IngredientAlign}>
+                    <Text
+                      style={[
+                        theme === 'dark' ? styles.DarkText : styles.LightText,
+                      ]}
+                    >
+                      {ingredientItem[`strIngredient${a}`]}
+                    </Text>
+                  </View>
+                  <View style={styles.MeasureAlign}>
+                    <Text
+                      style={[
+                        theme === 'dark' ? styles.DarkText : styles.LightText,
+                      ]}
+                    >
+                      {ingredientItem[`strMeasure${a}`]}
+                    </Text>
+                  </View>
                 </View>
-                <View style={styles.IngredientAlign}>
-                  <Text
-                    style={[
-                      theme === 'dark' ? styles.DarkText : styles.LightText,
-                    ]}
-                  >
-                    {ingredientItem[`strIngredient${a}`]}
-                  </Text>
-                </View>
-                <View style={styles.MeasureAlign}>
-                  <Text
-                    style={[
-                      theme === 'dark' ? styles.DarkText : styles.LightText,
-                    ]}
-                  >
-                    {ingredientItem[`strMeasure${a}`]}
-                  </Text>
-                </View>
-              </View>
-            ) : null,
-          )}
-        </SafeAreaView>
-      </SafeAreaView>
-      <View style={{ marginBottom: 150 }}>
-        <View style={{ left: 32 }}>
+              ) : null,
+            )}
+          </View>
+        </View>
+        <View style={{ marginBottom: 130 }}>
           <Text
             style={[theme === 'dark' ? styles.DarkTitle : styles.LightTitle]}
           >
             Instructions
           </Text>
-        </View>
-        <View style={{ left: 32, width: '80%' }}>
-          <Text
-            style={[
-              theme === 'dark'
-                ? styles.DarkIngredients
-                : styles.LightIngredients,
-            ]}
-          >
-            {ingredientItem.strInstructions}
-          </Text>
+          <View style={{ width: '90%' }}>
+            <Text
+              style={[
+                theme === 'dark'
+                  ? styles.DarkIngredients
+                  : styles.LightIngredients,
+              ]}
+            >
+              {ingredientItem.strInstructions}
+            </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -209,17 +206,15 @@ export default ({
 const styles = StyleSheet.create({
   Row: {
     flexDirection: 'row',
-    width: '80%',
-    left: 10,
+    width: '100%',
   },
   Icon: {
-    alignItems: 'flex-end',
     justifyContent: 'center',
     height: 30,
     width: 30,
   },
   IngredientAlign: {
-    paddingHorizontal: 5,
+    paddingRight: 5,
     justifyContent: 'center',
   },
   MeasureAlign: {

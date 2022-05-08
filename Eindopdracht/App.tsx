@@ -9,7 +9,7 @@ import RecipeDetail from './screens/Recipe/detail'
 import CountryDetail from './screens/Recipe/countrydetail'
 import Login from './screens/Login'
 import randomrecipe from './screens/Recipe/randomrecipe'
-import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
+import { useColorScheme } from 'react-native-appearance'
 import { DefaultTheme, DarkTheme } from '@react-navigation/native'
 
 const Stack = createNativeStackNavigator()
@@ -38,12 +38,12 @@ export default function App() {
           <Stack.Screen
             name="CategoryDetail"
             component={categoryDetail}
-            options={{ headerShown: true }}
+            options={{ headerShown: true, title: `Detail` }}
           />
           <Stack.Screen
             name="CountryDetail"
             component={CountryDetail}
-            options={{ headerShown: true }}
+            options={{ headerShown: true, title: `Detail` }}
           />
           <Stack.Screen name="Detail" component={RecipeDetail} />
           <Stack.Screen name="Random" component={randomrecipe} />

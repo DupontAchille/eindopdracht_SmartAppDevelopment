@@ -158,7 +158,13 @@ export default function () {
           <Text style={{ color: color.darkGreen, ...fonts.h2 }}>
             Hello Chef
           </Text>
-          <Text style={{ marginTop: 3, color: color.gray, ...fonts.body3 }}>
+          <Text
+            style={[
+              scheme === 'dark'
+                ? style.DarkHeaderTitle
+                : style.LightHeaderTitle,
+            ]}
+          >
             What you want to cook today?
           </Text>
         </View>
@@ -175,10 +181,13 @@ export default function () {
   function renderRecent() {
     return (
       <View style={{ marginTop: sizes.padding }}>
-        <StatusBar />
-        <Text style={{ marginHorizontal: sizes.padding, ...fonts.h2 }}>
-          Recently added
-        </Text>
+        <View style={{ marginLeft: 24 }}>
+          <Text
+            style={[scheme === 'dark' ? style.DarkTitle : style.LightTitle]}
+          >
+            Recently added
+          </Text>
+        </View>
         <FlatList
           data={testmeals}
           keyExtractor={(item) => `${item.idMeal}`}
@@ -297,4 +306,6 @@ const style = StyleSheet.create({
   },
   DarkRandomTitle: { width: '80%', ...fonts.body4, color: color.white },
   LightRandomTitle: { width: '80%', ...fonts.body4, color: color.black },
+  DarkHeaderTitle: { marginTop: 3, color: color.white, ...fonts.body3 },
+  LightHeaderTitle: { marginTop: 3, color: color.gray, ...fonts.body3 },
 })
